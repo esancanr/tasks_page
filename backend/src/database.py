@@ -1,11 +1,12 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-import os
+from src.models import Task
+import os 
+from dotenv import load_dotenv
 
+load_dotenv()
 
-MONGO_URL = os.getenv("URL_CONNECTION")
-
-client = AsyncIOMotorClient(MONGO_URL)
-database = client.tasksdatabase
+client = AsyncIOMotorClient(os.environ.get("URL"))
+database = client.tasksdb
 collection = database.tasks
 
 async def get_one_task(id):
@@ -16,7 +17,7 @@ async def get_all_tasks():
     tasks = []
     cursor = collection.find({})
     async for document in cursor:
-        tasks.append(document)
+        tasks.append(Task(**document))
     return tasks
 
 async def create_task(taks):
