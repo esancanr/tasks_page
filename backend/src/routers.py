@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from src.database import get_all_tasks, get_one_task, create_task, get_task
+from src.database import get_all_tasks, get_task_id, create_task, get_task_title
 from src.models import Task
 
 router = APIRouter(
@@ -11,14 +11,16 @@ async def get_tasks():
     tasks = await get_all_tasks()
     return tasks
 
-@router.get('/task/{id}')
-async def get_task():
-    task = await get_task()
-    return task 
+@router.get('/task/{id}', response_model=Task)
+async def get_task(id : str):
+    task = await get_task_id(id)
+    if task:
+        return task
+    raise HTTPException(404, f"Task with id:{id} not found  ")
 
 @router.post('/create-task', response_model = Task)
-async def post_tasks(task: Task):
-    foundTask = await get_one_task(task.title)
+async def post_tasks(task:Task):
+    foundTask = await get_task_title(task.title)
     if foundTask:
         raise HTTPException(409, 'Task already exists')
     

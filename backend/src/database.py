@@ -2,6 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from src.models import Task
 import os 
 from dotenv import load_dotenv
+from bson import ObjectId
 
 load_dotenv()
 
@@ -9,8 +10,8 @@ client = AsyncIOMotorClient(os.environ.get("URL"))
 database = client.tasksdb
 collection = database.tasks
 
-async def get_task(id):
-    task = await collection.find_one({'_id': id})
+async def get_task_id(id):
+    task = await collection.find_one({'_id': ObjectId(id)})
     return task
 
 async def get_all_tasks():
@@ -20,7 +21,7 @@ async def get_all_tasks():
         tasks.append(Task(**document))
     return tasks
 
-async def get_one_task(title):
+async def get_task_title(title):
     task = await collection.find_one({'title': title})
     return task
 
