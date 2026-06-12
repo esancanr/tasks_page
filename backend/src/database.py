@@ -36,5 +36,5 @@ async def update_task(id, task):
     return document
 
 async def delete_task(id):
-    await collection.delete_one({'_id': id})
+    await collection.delete_one({'_id': ObjectId(id)})
     return True
