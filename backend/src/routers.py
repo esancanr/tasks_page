@@ -29,7 +29,7 @@ async def post_tasks(task:Task):
         return result
     raise HTTPException(400, 'Something went wrong')
 
-@router.get('/task/{id}', response_model=Task)
+@router.delete('/task/{id}')
 async def remove_task(id : str):
     result = await delete_task(id)
     if result:
