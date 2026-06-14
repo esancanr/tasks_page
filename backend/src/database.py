@@ -1,5 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from src.models import Task
+from src.models.create_task import Task
+from src.models.update_task import updateTask
 import os 
 from dotenv import load_dotenv
 from bson import ObjectId
@@ -30,9 +31,11 @@ async def create_task(taks):
     created_tasks = await collection.find_one({'_id': new_task.inserted_id})
     return created_tasks
 
-async def update_task(id, task):
-    await collection.update_one({'_id': id}, {'$set': task})
-    document = await collection.find_one({'_id': id})
+async def update_task(id:str, data: updateTask):
+    print(type(data))
+    task = {k:v for k, v in data.model_dump().items() if v is not None}
+    await collection.update_one({'_id': ObjectId(id)}, {'$set': task})
+    document = await collection.find_one({'_id': ObjectId(id)})
     return document
 
 async def delete_task(id):

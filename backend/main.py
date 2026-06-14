@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
-from src.routers import router
+from src.routes import router
 
 
 
