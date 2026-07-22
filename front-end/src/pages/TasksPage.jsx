@@ -24,6 +24,7 @@ function TasksPage() {
           placeholder="Title" 
           className="block py-2 px-3 mb-4 w-full text-white border rounded-md"
           onChange={(e) => setTitle(e.target.value)}
+          autoFocus
           />
         <textarea
           placeholder="Desciption"
