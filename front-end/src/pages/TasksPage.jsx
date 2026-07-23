@@ -1,20 +1,28 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function TasksPage() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const params = useParams()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-  const res = await axios.post("http://localhost:8000/api/create-task",{
-    title,
-    description,
-    });
+    if (params.id) {
+      await axios.put(`http://localhost:8000/api/task/${params.id}`, {
+        title,
+        description,
+      });
+    } else {
+      await axios.post("http://localhost:8000/api/create-task", {
+        title,
+        description,
+      });
+    }
     e.target.reset()
+    navigate("/")
   };
 
   useEffect(() => {
@@ -26,7 +34,7 @@ function TasksPage() {
       setTitle(res.data.title)
       setDescription(res.data.description)
     }
-  }, [])
+  }, [params.id])
 
   return(
     <div className="grid h-screen place-items-center bg-gray-100:">
