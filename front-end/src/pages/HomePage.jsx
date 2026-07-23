@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import TaskList from "../components/taskList";
+import TaskList from "../components/TaskList";
 
 function HomePage() {
   const [tasks, setTasks] = useState([]);
