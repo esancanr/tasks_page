@@ -38,26 +38,37 @@ function TasksPage() {
 
   return(
     <div className="grid h-screen place-items-center bg-gray-100:">
-      <form className="bg-zinc-950 p-10 rounded-md" onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          placeholder="Title" 
-          className="block py-2 px-3 mb-4 w-full text-white border rounded-md"
-          onChange={(e) => setTitle(e.target.value)}
-          autoFocus
-          value={title}
-          />
-        <textarea
-          placeholder="Desciption"
-          rows='3'
-          className="block py-2 px-3 mb-4 w-full text-white border rounded-md"
-          onChange={(e) => setDescription(e.target.value)}
-          value={description}
-        ></textarea>
-        <button>
-          {params.id ? "Update Task" : "Save Task"}
+      <div>
+        <form className="bg-zinc-950 p-10 rounded-md" onSubmit={handleSubmit}>
+          <input 
+            type="text" 
+            placeholder="Title" 
+            className="block py-2 px-3 mb-4 w-full text-white border rounded-md"
+            onChange={(e) => setTitle(e.target.value)}
+            autoFocus
+            value={title}
+            />
+          <textarea
+            placeholder="Desciption"
+            rows='3'
+            className="block py-2 px-3 mb-4 w-full text-white border rounded-md"
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+          ></textarea>
+          <button>
+            {params.id ? "Update Task" : "Save Task"}
+          </button>
+        </form>
+        {params.id && (
+          <button className='bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded mt-5' onClick={async() =>{
+          const res = await axios.delete(`http://localhost:8000/api/task/${params.id}`)
+          console.log(res)
+          navigate("/")
+          }}>
+          Delete 
         </button>
-      </form>
+        )}
+      </div>
     </div>
   )
 }
