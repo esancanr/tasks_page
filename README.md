@@ -4,7 +4,6 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.0-61DAFB.svg)](https://react.dev/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-6.0%2B-47A248.svg)](https://www.mongodb.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A modern and scalable full-stack **Task Management** application designed following software architecture best practices used by international technology companies.
 
@@ -63,11 +62,9 @@ A modern and scalable full-stack **Task Management** application designed follow
 
 ## 📁 Project Structure
 
-```
+### Backend Structure
 
-## Backend Structure
-
-```
+```text
 backend/
 │
 ├── src/
@@ -95,7 +92,7 @@ backend/
 
 - **database.py**
   - Configures the database connection.
-  - Creates SQLAlchemy engine and sessions.
+  - Creates the SQLAlchemy engine and sessions.
 
 - **models/**
   - Contains Pydantic schemas for request validation.
@@ -103,9 +100,9 @@ backend/
 
 ---
 
-## Frontend Structure
+### Frontend Structure
 
-```
+```text
 front-end/
 │
 ├── public/
@@ -163,14 +160,12 @@ front-end/
 
 ---
 
----
-
 ## ⚙️ Prerequisites
 
 Make sure you have the following tools installed on your local environment:
 
 - **Python:** 3.10 or later
-- **Node.js:** v18.0 or later (with `npm` / `yarn`)
+- **Node.js:** v18.0 or later (with `npm` or `yarn`)
 - **MongoDB:** A local instance running on port `27017` or a **MongoDB Atlas** account
 - **Git**
 
