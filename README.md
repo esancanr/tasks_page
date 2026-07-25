@@ -92,7 +92,6 @@ backend/
 
 - **database.py**
   - Configures the database connection.
-  - Creates the SQLAlchemy engine and sessions.
 
 - **models/**
   - Contains Pydantic schemas for request validation.
