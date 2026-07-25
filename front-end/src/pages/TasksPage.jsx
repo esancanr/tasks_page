@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { getTask, createTask, updateTask, deleteTask } from '../api/task'
 
 function TasksPage() {
   const [title, setTitle] = useState('')
@@ -10,16 +10,12 @@ function TasksPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (params.id) {
-      await axios.put(`http://localhost:8000/api/task/${params.id}`, {
-        title,
-        description,
-      });
+    if (!params.id) {
+      const res = await createTask({title, description})
+      console.log(res)
     } else {
-      await axios.post("http://localhost:8000/api/create-task", {
-        title,
-        description,
-      });
+      const res = await updateTask(params.id, {title, description})
+      console.log(res)
     }
     e.target.reset()
     navigate("/")
@@ -27,19 +23,26 @@ function TasksPage() {
 
   useEffect(() => {
     if (params.id){
-      fetchTask()
+      getTask(params.id)
+        .then(res =>{
+          setTitle(res.data.title)
+          setDescription(res.data.description)
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-    async function fetchTask(){
-      const res = await axios.get(`http://localhost:8000/api/task/${params.id}`)
-      setTitle(res.data.title)
-      setDescription(res.data.description)
-    }
-  }, [params.id])
+  }, [params.id]);
 
   return(
     <div className="grid h-screen place-items-center bg-gray-100:">
       <div>
         <form className="bg-zinc-950 p-10 rounded-md" onSubmit={handleSubmit}>
+          <h1 className='text-3xl font-bold my-4'>
+            {
+              params.id ? "Update Task" : "Create Task"
+            }
+          </h1>
           <input 
             type="text" 
             placeholder="Title" 
@@ -55,14 +58,14 @@ function TasksPage() {
             onChange={(e) => setDescription(e.target.value)}
             value={description}
           ></textarea>
-          <button>
+          <button className='bg-white hover:bg-slate-800 hover:text-white text-slate-800 py-2 px-4 rounded'>
             {params.id ? "Update Task" : "Save Task"}
           </button>
         </form>
         {params.id && (
           <button className='bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded mt-5' onClick={async() =>{
-          const res = await axios.delete(`http://localhost:8000/api/task/${params.id}`)
-          console.log(res)
+          const res = await deleteTask(params.id)
+          console.log(res);
           navigate("/")
           }}>
           Delete 
